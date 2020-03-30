@@ -191,7 +191,7 @@ namespace CLLogger
         /// <summary>
         /// Gets the Current Log File Path
         /// </summary>
-        public string Path { get => _path; }
+        public string Path => _path;
 
         protected void SendMessage(object message)
         {
@@ -202,7 +202,10 @@ namespace CLLogger
 
             log += message + Environment.NewLine;
             if (writer == null)
+            {
                 writer = new StreamWriter(_path);
+            }
+
             writer.WriteLine(message);
             Console.WriteLine(message);
         }
