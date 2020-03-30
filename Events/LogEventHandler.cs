@@ -10,7 +10,7 @@
     /// </item>
     /// </list>
     /// </summary>
-    public class LogEventHandler
+    class LogEventHandler
     {
 
     }

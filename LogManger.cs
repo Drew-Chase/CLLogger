@@ -17,8 +17,13 @@ namespace CLLogger
     {
         private string log, _pattern_prefix;
         private static string _path = "";
-        private static LogTypes _minLogType = LogTypes.All;
-        private readonly bool fatal = false, warn = false, info = false, debug = false, error = false;
+        private static LogTypes minLogType = LogTypes.All;
+        private readonly bool fatal = false, warn = false, info = false, debug = false, error = false, logDefaultConsole = false;
+        private StreamWriter writer;
+        public static LogManger Init()
+        {
+            return Empty();
+        }
 
         /// <summary>
         /// Sets the Minimum Log Type
@@ -30,9 +35,9 @@ namespace CLLogger
         /// <param name="minLogType"></param>
         /// <returns></returns>
         /// </summary>
-        public static LogManger SetMinLogType(LogTypes minLogType)
+        public LogManger SetMinLogType(LogTypes minLogType)
         {
-            return new LogManger(_path, minLogType);
+            return new LogManger(Path, minLogType, Pattern, logDefaultConsole);
         }
         /// <summary>
         /// Sets the Log File Path
@@ -50,9 +55,9 @@ namespace CLLogger
         /// <param name="minLogType"></param>
         /// <returns></returns>
         /// </summary>
-        public static LogManger SetLogDirectory(string path)
+        public LogManger SetLogDirectory(string path)
         {
-            return new LogManger(path, _minLogType);
+            return new LogManger(path, minLogType, Pattern, logDefaultConsole);
         }
         /// <summary>
         /// Sets the Log File Path
@@ -70,10 +75,26 @@ namespace CLLogger
         /// <param name="minLogType"></param>
         /// <returns></returns>
         /// </summary>
-        public static LogManger SetLogDirectory(FileInfo path)
+        public LogManger SetLogDirectory(FileInfo path)
         {
 
-            return new LogManger(path.FullName, _minLogType);
+            return new LogManger(path.FullName, minLogType, Pattern, logDefaultConsole);
+        }
+        /// <summary>
+        /// Enables Logging for Default Console.
+        /// </summary>
+        /// <returns></returns>
+        public LogManger EnableDefaultConsoleLogging()
+        {
+            return new LogManger(Path, minLogType, Pattern, true);
+        }
+        /// <summary>
+        /// Disables Logging for Default Console.
+        /// </summary>
+        /// <returns></returns>
+        public LogManger DisableDefaultConsoleLogging()
+        {
+            return new LogManger(Path, minLogType, Pattern, false);
         }
 
         /// <summary>
@@ -90,11 +111,12 @@ namespace CLLogger
             return new LogManger();
         }
 
-        private LogManger(string path = @"C:\Default-Log-File-Location(Please_Change)\latest.log", LogTypes minLogType = LogTypes.All, string pattern_prefix = "[ %TYPE%: %DATE% ]: %MESSAGE%")
+        private LogManger(string path = "", LogTypes _minLogType = LogTypes.All, string _pattern_prefix = "[ %TYPE%: %DATE% ]: %MESSAGE%", bool _logDefaultConsole = true)
         {
             _path = path;
-            _minLogType = minLogType;
-            Pattern = pattern_prefix;
+            minLogType = _minLogType;
+            Pattern = _pattern_prefix;
+            logDefaultConsole = _logDefaultConsole;
 
             switch (minLogType)
             {
@@ -120,8 +142,29 @@ namespace CLLogger
                     fatal = true; warn = true; info = true; debug = true; error = true;
                     minLogType = LogTypes.All;
                     break;
-
             }
+
+            //if (writer == null && !string.IsNullOrWhiteSpace(path))
+            //{
+            //    if (!Directory.GetParent(_path).Exists)
+            //    {
+            //        Directory.CreateDirectory(Directory.GetParent(_path).FullName);
+            //    }
+            //    writer = new StreamWriter(_path);
+            //    if (logDefaultConsole)
+            //    {
+            //        AppDomain.CurrentDomain.ProcessExit += Close;
+            //        Console.SetOut(writer);
+            //    }
+            //}
+        }
+
+        private void Close(object sender, EventArgs e)
+        {
+            Console.SetOut(Console.Out);
+            writer.Flush();
+            writer.Dispose();
+            writer.Close();
         }
 
         public bool IsFatalEnabled => fatal;
@@ -137,13 +180,18 @@ namespace CLLogger
         /// <summary>
         /// <para>%DATE% - Current Date</para>
         /// <para>%TYPE% - Log Type</para>
-        /// <para>%MESSAGE%</para>
+        /// <para>%MESSAGE% - The Message</para>
         /// Example
         /// <code>
         /// [ %TYPE%: %DATE% ]: %MESSAGE%
         /// </code>
         /// </summary>
         public string Pattern { get => _pattern_prefix; set => _pattern_prefix = value; }
+
+        /// <summary>
+        /// Gets the Current Log File Path
+        /// </summary>
+        public string Path { get => _path; }
 
         protected void SendMessage(object message)
         {
@@ -153,14 +201,10 @@ namespace CLLogger
             }
 
             log += message + Environment.NewLine;
-
-            using (StreamWriter writer = new StreamWriter(_path))
-            {
-                writer.WriteLine(message);
-                writer.Flush();
-                writer.Dispose();
-                writer.Close();
-            }
+            if (writer == null)
+                writer = new StreamWriter(_path);
+            writer.WriteLine(message);
+            Console.WriteLine(message);
         }
 
         public string LogOutput()
