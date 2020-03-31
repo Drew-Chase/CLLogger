@@ -3,6 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>ChaseLabs.ChaseLabs.CLLogger</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>ChaseLabs.Logger</PackageId>
+    <RepositoryUrl>https://github.com/DcmanProductions/CLLogger.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/DcmanProductions/CLLogger</PackageProjectUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Version>0.0.5</Version>
+    <Authors>Drew Chase</Authors>
+    <Company>ChaseLabs</Company>
+    <Product>Simple Logging</Product>
+    <Description>An easy to use file logging system.</Description>
+    <Copyright>2020</Copyright>
+    <PackageReleaseNotes>Added Event Handler for Logging</PackageReleaseNotes>
+    <PackageTags>Utilities Logging Log ChaseLabs Helpers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

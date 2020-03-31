@@ -21,11 +21,6 @@ namespace ChaseLabs.CLLogger.Interfaces
         bool IsErrorEnabled { get; }
         string Pattern { get; set; }
         /// <summary>
-        /// A Full Text Output of the Current Log
-        /// </summary>
-        /// <returns></returns>
-        String LogOutput();
-        /// <summary>
         /// A Debug Log with a Single Message
         /// </summary>
         /// <param name="message"></param>

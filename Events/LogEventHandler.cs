@@ -10,8 +10,17 @@
     /// </item>
     /// </list>
     /// </summary>
-    internal class LogEventHandler
+    public class LogEventHandler
     {
+        //public delegate void LoggedMessageEventHandler(object sender, EventArgs args);
+        //public event LoggedMessageEventHandler LoggedMessage;
 
+        //public virtual void OnMessageLogged()
+        //{
+        //    if(LoggedMessage != null)
+        //    {
+        //        LoggedMessage(this, EventArgs.Empty);
+        //    }
+        //}
     }
 }

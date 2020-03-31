@@ -1,4 +1,5 @@
-﻿using ChaseLabs.CLLogger.Interfaces;
+﻿using ChaseLabs.CLLogger.Events;
+using ChaseLabs.CLLogger.Interfaces;
 using System;
 using System.IO;
 using static ChaseLabs.CLLogger.Lists;
@@ -15,11 +16,11 @@ namespace ChaseLabs.CLLogger
     /// </summary>
     public class LogManger : ILog
     {
-        private string log, _pattern_prefix;
+        private string _pattern_prefix;
         private static string _path = "";
         private static LogTypes minLogType = LogTypes.All;
         private readonly bool fatal = false, warn = false, info = false, debug = false, error = false, logDefaultConsole = false;
-        private StreamWriter writer;
+
         public static LogManger Init()
         {
             return Empty();
@@ -143,14 +144,16 @@ namespace ChaseLabs.CLLogger
                     minLogType = LogTypes.All;
                     break;
             }
+
+            AppDomain.CurrentDomain.ProcessExit += Close;
         }
 
         private void Close(object sender, EventArgs e)
         {
-            Console.SetOut(Console.Out);
-            writer.Flush();
-            writer.Dispose();
-            writer.Close();
+            if (File.Exists(Path))
+            {
+                File.Move(Path, System.IO.Path.Combine(Directory.GetParent(Path).FullName, DateTime.Now.ToString().Replace(":", "-").Replace("/", "-") + ".log"));
+            }
         }
 
         public bool IsFatalEnabled => fatal;
@@ -179,6 +182,17 @@ namespace ChaseLabs.CLLogger
         /// </summary>
         public string Path => _path;
 
+        public delegate void LoggedMessageEventHandler(object sender, LogEventArgs args);
+        public event LoggedMessageEventHandler LoggedMessage;
+
+        /// <summary>
+        /// Runs Every Time a Message is Logged
+        /// </summary>
+        public virtual void OnMessageLogged(string message)
+        {
+            LoggedMessage?.Invoke(this, new LogEventArgs() { Log = message });
+        }
+
         protected void SendMessage(object message)
         {
             if (!Directory.GetParent(_path).Exists)
@@ -186,23 +200,12 @@ namespace ChaseLabs.CLLogger
                 Directory.CreateDirectory(Directory.GetParent(_path).FullName);
             }
 
-            log += message + Environment.NewLine;
-            if (writer == null)
-            {
-                writer = new StreamWriter(_path);
-            }
-
+            StreamWriter writer = new StreamWriter(_path, true);
             writer.WriteLine(message);
-            Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Gets the Continuous Output of The Logger
-        /// </summary>
-        /// <returns></returns>
-        public string LogOutput()
-        {
-            return log;
+            writer.Flush();
+            writer.Dispose();
+            writer.Close();
+            OnMessageLogged(message as string);
         }
 
         public void Debug(object message)
