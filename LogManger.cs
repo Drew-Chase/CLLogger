@@ -1,9 +1,9 @@
-﻿using CLLogger.Interfaces;
+﻿using ChaseLabs.CLLogger.Interfaces;
 using System;
 using System.IO;
-using static CLLogger.Lists;
+using static ChaseLabs.CLLogger.Lists;
 
-namespace CLLogger
+namespace ChaseLabs.CLLogger
 {
     /// <summary>
     /// <para>
@@ -143,20 +143,6 @@ namespace CLLogger
                     minLogType = LogTypes.All;
                     break;
             }
-
-            //if (writer == null && !string.IsNullOrWhiteSpace(path))
-            //{
-            //    if (!Directory.GetParent(_path).Exists)
-            //    {
-            //        Directory.CreateDirectory(Directory.GetParent(_path).FullName);
-            //    }
-            //    writer = new StreamWriter(_path);
-            //    if (logDefaultConsole)
-            //    {
-            //        AppDomain.CurrentDomain.ProcessExit += Close;
-            //        Console.SetOut(writer);
-            //    }
-            //}
         }
 
         private void Close(object sender, EventArgs e)
@@ -210,6 +196,10 @@ namespace CLLogger
             Console.WriteLine(message);
         }
 
+        /// <summary>
+        /// Gets the Continuous Output of The Logger
+        /// </summary>
+        /// <returns></returns>
         public string LogOutput()
         {
             return log;

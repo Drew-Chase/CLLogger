@@ -1,4 +1,4 @@
-﻿namespace CLLogger.Events
+﻿namespace ChaseLabs.CLLogger.Events
 {
     /// <summary>
     /// <list type="table">

@@ -1,4 +1,4 @@
-﻿namespace CLLogger
+﻿namespace ChaseLabs.CLLogger
 {
     /// <summary>
     /// <para>
@@ -83,12 +83,6 @@
         {
             Date,
             Number
-        }
-        public enum LogPattern
-        {
-            Type,
-            TypeDate,
-            None
         }
     }
 }

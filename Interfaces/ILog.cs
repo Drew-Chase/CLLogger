@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CLLogger.Interfaces
+namespace ChaseLabs.CLLogger.Interfaces
 {
     /// <summary>
     /// <list type="table">
