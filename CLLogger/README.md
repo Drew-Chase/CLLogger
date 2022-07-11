@@ -14,7 +14,7 @@ ILog log = LogManager.Init();
 ### Default Logger with modified path
 ```csharp
 // This file and directories will be created for you.
-ILog log = LogManager.Init().SetLogDirectory("relative/or/absolute/path/to/latest.log");
+ILog log = LogManager.Init().SetLogDirectory("relative/or/absolute/path/to/");
 ```
 ### Default Logger with modified minimum log type
 #### Log Types
