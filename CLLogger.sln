@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLLogger", "CLLogger\CLLogger.csproj", "{80DD0E95-B0C1-4924-9DC6-B94357578725}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80DD0E95-B0C1-4924-9DC6-B94357578725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80DD0E95-B0C1-4924-9DC6-B94357578725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80DD0E95-B0C1-4924-9DC6-B94357578725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80DD0E95-B0C1-4924-9DC6-B94357578725}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C7870D9-0ED3-4635-BF21-D3BAEF4D8F3C}
+	EndGlobalSection
+EndGlobal
